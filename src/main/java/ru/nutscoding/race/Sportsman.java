@@ -13,15 +13,18 @@ public class Sportsman {
     private static final Random RANDOM = new Random();
     private static final int LUCKY_RANGE = 100;
     private static final int FAIL_CHANCE = 20;
+    private static final int MAX_LEVEL = 100;
 
     private final int number;
+    private final int level;
     private final String currentSportsman;
     @Nullable
     private Stick stick;
 
-    public Sportsman(int number) {
+    public Sportsman(int number, int level) {
         this.number = number;
         this.currentSportsman = "Спортсмен № " + number;
+        this.level = level;
     }
 
     public void takeStick(Stick stick) {
@@ -38,25 +41,33 @@ public class Sportsman {
         System.out.printf("%s успешно пробежал!\n", currentSportsman);
     }
 
-    public void transferStick(Sportsman sportsman) {
-        doTransferStick(sportsman);
+    private void transferStick(Sportsman sportsman) {
+        System.out.printf("%s передает палочку спортсмену под номером %s\n",
+                currentSportsman, sportsman.getNumber());
+        sportsman.takeStick(stick);
+        this.stick = null;
     }
 
-    public void riskyTransferStick(Sportsman sportsman) throws StickTransferException {
+    private void riskyTransferStick(Sportsman sportsman) throws StickTransferException {
         if (!isLucky()) {
             throw new StickTransferException(String.format("%s не добросил палочку!\n", currentSportsman));
         }
-        doTransferStick(sportsman);
+        System.out.printf("%s бросает палочку спортсмену под номером %s\n",
+                currentSportsman, sportsman.getNumber());
+        sportsman.takeStick(stick);
+        this.stick = null;
     }
 
     private boolean isLucky() {
         return FAIL_CHANCE < RANDOM.nextInt(LUCKY_RANGE);
     }
 
-    private void doTransferStick(Sportsman sportsman) {
-        System.out.printf("%s передает палочку спортсмену под номером %s\n",
-                currentSportsman, sportsman.getNumber());
-        sportsman.takeStick(stick);
-        this.stick = null;
+    public void someTransferStick(Sportsman sportsman) throws StickTransferException {
+
+        if (level < RANDOM.nextInt(MAX_LEVEL)) {
+            transferStick(sportsman);
+        } else {
+            riskyTransferStick(sportsman);
+        }
     }
 }
