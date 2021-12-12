@@ -27,11 +27,17 @@ public class Sportsman {
         this.level = level;
     }
 
+    /**
+     * Этот метод нужен для того, чтобы спортсмен взял палочку.
+     */
     public void takeStick(Stick stick) {
         System.out.printf("%s взял палочку\n", currentSportsman);
         this.stick = stick;
     }
-
+    /**
+     * Метод нужен, чтобы спортсмен побежал.
+     * Если спортсмен упадет, метод бросает исключение.
+     */
     public void runWithStick() {
         System.out.printf("%s побежал!\n", currentSportsman);
         if (!isLucky()) {
@@ -40,14 +46,19 @@ public class Sportsman {
         }
         System.out.printf("%s успешно пробежал!\n", currentSportsman);
     }
-
+    /**
+     * Метод описывает безопасную передачу палочки.
+     */
     private void transferStick(Sportsman sportsman) {
         System.out.printf("%s передает палочку спортсмену под номером %s\n",
                 currentSportsman, sportsman.getNumber());
         sportsman.takeStick(stick);
         this.stick = null;
     }
-
+    /**
+     * Метод описывает рискованную передачу палочки.
+     * Спортсмен может уронить палочку, тогда метод бросает исключение.
+     */
     private void riskyTransferStick(Sportsman sportsman) throws StickTransferException {
         if (!isLucky()) {
             throw new StickTransferException(String.format("%s не добросил палочку!\n", currentSportsman));
@@ -57,11 +68,15 @@ public class Sportsman {
         sportsman.takeStick(stick);
         this.stick = null;
     }
-
+    /**
+     * Метод проверяет уровень удачи спортсмена.
+     */
     private boolean isLucky() {
         return FAIL_CHANCE < RANDOM.nextInt(LUCKY_RANGE);
     }
-
+    /**
+     * Метод описывает механизм выбора способа передачи палочки.
+     */
     public void someTransferStick(Sportsman sportsman) throws StickTransferException {
 
         if (level < RANDOM.nextInt(MAX_LEVEL)) {

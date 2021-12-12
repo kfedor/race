@@ -1,11 +1,23 @@
 package ru.nutscoding.race;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.ListIterator;
 
 public class Application {
 
     private static final Random RANDOM = new Random();
-
+    /**
+     * Метод создает спортсменов, присваивает им номера и уровни,
+     * помещает в коллекцию и запускает забег. Спортсмены передают друг другу
+     * эстафетную палочки, и при успешном выполнении побеждает дружба.
+     *
+     * P.S. Цикл, описывающий процесс передачи палочки с использованием
+     * итератора, не допилен.
+     */
     public static void main(String[] args) throws Exception {
 
         Stick stick = new Stick();
